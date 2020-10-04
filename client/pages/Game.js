@@ -120,8 +120,9 @@ export default function Game({ navigation }) {
           return (
             <View style={styles.row} key={rowIdx}>
               {row.map((number, idx) => {
+                const boxStyles = buildBoxStyle(rowIdx, idx)
                 return (
-                  <View style={styles.box(rowIdx, idx)} key={idx}>
+                  <View style={boxStyles.box} key={idx}>
                     <TextInput
                       style={[styles.input, {backgroundColor: board[rowIdx][idx] == 0 ? '#fff' : '#939280'}]}
                       value={number == 0 ? "" : String(number)}
@@ -151,23 +152,23 @@ export default function Game({ navigation }) {
   );
 
 }
-
-const styles = StyleSheet.create({
-  gameContainer: {
-    justifyContent: 'center',
-  },
-  box: (row, col) => {
-    return {
+const buildBoxStyle = (row, col) =>
+  StyleSheet.create({
+    box: {
       width: boxSize,
       height: boxSize,
       flexDirection: 'column',
       justifyContent: 'center',
       borderTopWidth: row == 0 ? 3 : 1,
-      borderRightWidth: (col == 8 || ((col + 1) % 3) == 0) ? 3 : 1,
-      borderBottomWidth: (row == 8 || ((row + 1) % 3) == 0) ? 3 : 1,
+      borderRightWidth: col == 8 || (col + 1) % 3 == 0 ? 3 : 1,
+      borderBottomWidth: row == 8 || (row + 1) % 3 == 0 ? 3 : 1,
       borderLeftWidth: col == 0 ? 3 : 1,
-      borderColor: "#000",
-    }
+      borderColor: '#000',
+    },
+  });
+const styles = StyleSheet.create({
+  gameContainer: {
+    justifyContent: 'center',
   },
   board: {
     backgroundColor: '#fff',
